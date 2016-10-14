@@ -1,0 +1,119 @@
+program iris;
+uses crt;
+type registro = record
+                    Sepal_Length : real;
+                    Sepal_Width : real;
+                    Petal_Length :real;
+                    Petal_Width : real;
+                    Species : string;
+                    end;
+
+
+var flor : array [1..120] of registro;
+                
+    testeo : array [1..30] of registro;
+    datos : file of registro;
+    r : registro;
+    
+    i : integer;
+    especies : string;
+    c : Integer;
+    s : integer;
+    total : Integer;
+    setosa : string;
+    virginica : String;
+    versicolor : String;
+    
+
+begin
+c := 1;
+s := 1;
+total := 1;
+i := 1;
+Assign(datos, 'iris.dat');
+Reset(datos);
+read(datos, r);
+
+ while not eof(datos) do
+  begin
+    if (r.species) = setosa then
+    begin
+        if c <= 10 then 
+        begin
+             testeo[c] := r;
+            c := c+1;
+            s := s+1;
+        end    
+        else
+        begin
+        if (r.species) = setosa then
+        begin
+            flor[total] := r;
+            total := total+1;
+            end;
+        end;//final else
+     end;//final if
+     read(datos,r);
+    end;//final while
+
+/////////////////////////////////////////////////////////
+reset(datos);
+    while not eof(datos) do
+     begin
+    if (r.species) = versicolor then
+    begin
+        if c <= 10 then 
+        begin
+            testeo[c] := r;
+            c := c+1;
+            s := s+1;
+        end
+         else
+        begin
+        if (r.species) = setosa then
+        begin
+            flor[total] := r;
+            total := total+1;
+            end;
+        end;//final else
+    end;//final if
+    read(datos,r);
+   end; //final while
+
+reset(datos);
+   while not eof(datos) do
+   begin
+    if (r.species) = virginica then
+    begin
+        if c <= 10 then 
+        begin
+            testeo[c] := r;
+            c := c+1 ;
+            s := s+1 ;
+         end
+       else
+        begin
+        if (r.species) = setosa then
+        begin
+            flor[total] := r;
+            total := total+1;
+            end;
+                end;//final else
+    end;// final if
+    
+
+read(datos, r);
+end;//final del while
+
+    close(datos);
+ 
+ for i:= 1 to 30 do
+ begin
+    writeln(i, ' ', testeo[i].Species,' ', testeo[i].Petal_Length,' ', testeo[i].Petal_Width);
+ end;
+ for i:= 1 to 120 do
+ begin
+    writeln(i, ' ', flor[i].Species,' ', flor[i].Petal_Length,' ', flor[i].Petal_Width);
+ end;
+    readkey();
+end.
